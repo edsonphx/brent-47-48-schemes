@@ -16,6 +16,8 @@ Two shorter checks are available. `python3 binary_crosscheck.py` independently b
 
 With the optional python-flint package, run `python3 regenerate_dps48_jets.py` to rebuild the cubic and quartic coefficients from the quadratic data and compare them entry by entry. The default verifier checks the polynomial identities directly and does not need FLINT.
 
+The reviewer draft also proves the exact minimum external support 16 over the rationals at D(2). The integer witness in `dps48-external-Q.json` has 442 nonzero coordinates. `python3 dps48_support.py` checks the exact tensor derivative, the support, and the independent reduction. Run `python3 dps48_catalogue.py` for the 21-table classification. The four full-symmetry classes have sizes 18, 1, 1 and 1. Each has a representative on chart one, including the published twelve-term replacement at both `(2,-1/2)` and `(2,-3/2)`.
+
 ## Exact results
 
 - **Five binary orbits.** The six input tables all have Jacobian rank 2,117 and orbit differential rank 139. Their five distinct orbits are separated by sorted rank-triple multisets. Small vertex commutator matrices independently certify the orbit dimension 139 for the five representatives. The explicit Gamma47-B to C5 map includes a cyclic rotation, three binary basis changes, and a term permutation. The six distinct parity-witness presentations include two for the same orbit.

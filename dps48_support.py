@@ -1,10 +1,10 @@
-"""Certify the minimum external support of a sixth tangent at D(2)."""
+"""Certify the minimum external support at D(2) over F3 and the rationals."""
 from itertools import combinations
 import json
 
 import numpy as np
 
-from audit import ModularEchelon
+from audit import ROOT, ModularEchelon
 from families import GROUPS, all_factors
 from reference.verify_certificate import jacobian_rows, require, symmetry_directions
 
@@ -46,6 +46,33 @@ def remove_scalings(point, tangents):
     return representatives.reshape(-1, point.size) % 3
 
 
+def rational_witness(base, external, known_rows):
+    entries = json.loads((ROOT / "dps48-external-Q.json").read_text())
+    delta = np.zeros(base.size, dtype=object)
+    indices = [i for i, _ in entries]
+    require(indices == sorted(set(indices)) and all(0 <= i < base.size for i in indices),
+            "invalid rational witness indices")
+    for i, value in entries:
+        require(type(value) is int and value != 0, "invalid rational witness coefficient")
+        delta[i] = value
+    terms = delta.reshape(base.shape)
+    touched = {s+1 for s, term in enumerate(terms) if np.any(term)}
+    require(touched & external == set(ACTIVE_EXTERNAL), "wrong rational external support")
+    # Evaluate the differential over unbounded integers without using a stored Jacobian.
+    point = base.astype(object)
+    residual = np.zeros((16, 256), dtype=object)
+    for mode in range(3):
+        a, b, c = [terms[:, j] if j == mode else point[:, j] for j in range(3)]
+        residual += a.T @ (b[:, :, None]*c[:, None, :]).reshape(48, 256)
+    require(not residual.any(), "rational support witness fails a Brent equation")
+    known = span(known_rows)
+    require(len(known.pivots) == 146 and known.insert(np.array(delta % 3, dtype=np.int32)) is None,
+            "rational witness does not extend the known space after reduction")
+    return {"DPS48_D2_field": "Q", "minimum_external_support": 16,
+            "restricted_jacobian_rank": 1467, "known_span_with_witness": len(known.pivots),
+            "nonzero_integer_coefficients": len(entries)}
+
+
 def main():
     raw, base = all_factors()
     # The data use the uniform factor scale 16 at t=2.
@@ -79,6 +106,8 @@ def main():
     known = span(np.vstack((orbit_core, derivative)))
     require(len(known.pivots) == 146, "incorrect span of known directions")
 
+    rational = rational_witness(base, external, np.vstack((orbit_core, derivative)))
+
     covers = []
     for line in LINES:
         quartets = [
@@ -111,6 +140,7 @@ def main():
         "witness_sparse_coordinates_0_based": [[int(i), int(witness[i]) % 3]
                                               for i in np.flatnonzero(witness % 3)],
     }))
+    print(json.dumps(rational))
 
 
 if __name__ == "__main__":
