@@ -1,4 +1,4 @@
-"""Certify the minimum external support at D(2) and D(1/4) over F3 and the rationals."""
+"""Certify the minimum external support at two base points and generically over Q."""
 from itertools import combinations
 import json
 
@@ -46,6 +46,15 @@ def remove_scalings(point, tangents):
     return representatives.reshape(-1, point.size) % 3
 
 
+def differential(base, variation):
+    point = base.astype(object)
+    residual = np.zeros((16, 256), dtype=object)
+    for mode in range(3):
+        a, b, c = [variation[:, j] if j == mode else point[:, j] for j in range(3)]
+        residual += a.T @ (b[:, :, None]*c[:, None, :]).reshape(48, 256)
+    return residual
+
+
 def rational_witness(base, external, known_rows, filename):
     entries = json.loads((ROOT / filename).read_text())
     delta = np.zeros(base.size, dtype=object)
@@ -59,12 +68,8 @@ def rational_witness(base, external, known_rows, filename):
     touched = {s+1 for s, term in enumerate(terms) if np.any(term)}
     require(touched & external == set(ACTIVE_EXTERNAL), "wrong rational external support")
     # Evaluate the differential over unbounded integers without using a stored Jacobian.
-    point = base.astype(object)
-    residual = np.zeros((16, 256), dtype=object)
-    for mode in range(3):
-        a, b, c = [terms[:, j] if j == mode else point[:, j] for j in range(3)]
-        residual += a.T @ (b[:, :, None]*c[:, None, :]).reshape(48, 256)
-    require(not residual.any(), "rational support witness fails a Brent equation")
+    require(not differential(base, terms).any(),
+            "rational support witness fails a Brent equation")
     known = span(known_rows)
     require(len(known.pivots) == 146 and known.insert(np.array(delta % 3, dtype=np.int32)) is None,
             "rational witness does not extend the known space after reduction")
@@ -140,6 +145,40 @@ def verify_point(parameter, base, derivative, filename):
     print(json.dumps({"DPS48_parameter": parameter, **rational}))
 
 
+def verify_curve_witness(raw):
+    entries = json.loads((ROOT / "dps48-external-curve-Q.json").read_text())
+    indices = [i for i, _ in entries]
+    size = raw[0].size
+    require(indices == sorted(set(indices)) and all(0 <= i < size for i in indices),
+            "invalid curve witness indices")
+    coefficients = np.zeros((size, 2), dtype=object)
+    for i, values in entries:
+        require(len(values) == 2 and all(type(c) is int for c in values) and any(values),
+                "invalid curve witness coefficient")
+        coefficients[i] = values
+    core = set(sum(GROUPS, []))
+    support = {i//48 + 1 for i in indices} - core
+    require(support == set(ACTIVE_EXTERNAL), "wrong curve witness support")
+    # P(t) is quadratic and the direction affine. The residual has degree at most five.
+    minus, constant, plus = raw.astype(object)
+    for t in range(6):
+        point = minus + t*constant + t*t*plus
+        variation = (coefficients[:, 0] + t*coefficients[:, 1]).reshape(point.shape)
+        require(not differential(point, variation).any(),
+                f"curve witness fails a Brent equation at node {t}")
+    # The witness tested at D(2) is exactly the specialization of this section.
+    entries_at_two = [[i, int(a+2*b)] for i, (a, b) in entries if a+2*b]
+    require(entries_at_two == json.loads((ROOT / "dps48-external-Q.json").read_text()),
+            "curve witness does not recover the independent D(2) tangent")
+    entries_at_quarter = [[i, int(4*a+b)] for i, (a, b) in entries if 4*a+b]
+    quarter = json.loads((ROOT / "dps48-external-quarter-Q.json").read_text())
+    require(entries_at_quarter == [[i, 4*c] for i, c in quarter],
+            "curve witness does not recover the independent D(1/4) tangent")
+    print(json.dumps({"DPS48_curve_field": "Q", "generic_minimum_external_support": 16,
+                      "witness_coordinate_count": len(entries), "differential_degree_bound": 5,
+                      "exact_interpolation_nodes": 6}))
+
+
 if __name__ == "__main__":
     raw, at_two = all_factors()
     minus, constant, plus = raw
@@ -148,3 +187,4 @@ if __name__ == "__main__":
     verify_point("2", at_two, 4*plus-minus, "dps48-external-Q.json")
     at_quarter = 16*minus + 4*constant + plus
     verify_point("1/4", at_quarter, plus-16*minus, "dps48-external-quarter-Q.json")
+    verify_curve_witness(raw)
