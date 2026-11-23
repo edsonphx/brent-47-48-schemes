@@ -1,6 +1,10 @@
-# Exact local and arithmetic geometry of 47- and 48-term schemes for 4×4 matrix multiplication
+# Rigidity of 47-term schemes and rational deformations of a 48-term scheme for 4×4 matrix multiplication
 
 This is an offline research package for the ordered Brent scheme of \(4\times4\) matrix multiplication. It includes an editable LaTeX manuscript, compiled PDF, coefficient and change-of-basis certificates, exact rational curves, and field audits. The [Strassen² companion paper](https://doi.org/10.5281/zenodo.24449376) studies the recursive 49-term point.
+
+The binary results concern five symmetry orbits and every public representative explicitly matched to them in [Tomar, Appendix B.1](https://doi.org/10.5281/zenodo.23604141). For DPS48 the full local Krull dimension in characteristic zero is bounded by **143 and 151**. Each of four twelve-term restrictions has exact local dimension **25**, and each symmetry-saturated surface closure has dimension **143**. The unrestricted local ring agrees with the polynomial ring on 151 variables through degree four over the rationals. Its Hilbert function in these degrees is **1, 151, 11,476, 585,276, 22,533,126**.
+
+The [previously archived version](https://doi.org/10.5281/zenodo.24458306) bears the earlier title *Exact local and arithmetic geometry of 47- and 48-term schemes for 4×4 matrix multiplication*. Cite the Git revision alongside the DOI when using the new rational fourth-order certificate.
 
 ## Replay
 
@@ -8,14 +12,18 @@ Run `bash reproduce.sh` with Python 3.9 or later, NumPy, and SymPy installed. Th
 
 The optional `slide.py` needs SciPy. It is a floating-point experiment with a fixed symmetry gauge and a Gauss–Newton residual tolerance. The recorded run covered all 21 displayed tables and accepted no projected step at the specified tolerance. The exact searches and replay use rational identities, matrix ranks modulo a specified prime, and polynomial certificates.
 
+Two shorter checks are available. `python3 binary_crosscheck.py` independently builds every equation row and checks the binary and augmented ranks using Python integer arithmetic. `python3 dps48_local.py` verifies the rational ten-parameter fourth jet at 715 interpolation nodes and computes the four restricted Jacobian ranks at both specified base points. The coefficient archive `dps48-jets-Q.npz` stores the cubic and quartic arrays as signed integers in lexicographic monomial order; the linear and quadratic arrays come from the existing rational certificate.
+
+With the optional python-flint package, run `python3 regenerate_dps48_jets.py` to rebuild the cubic and quartic coefficients from the quadratic data and compare them entry by entry. The default verifier checks the polynomial identities directly and does not need FLINT.
+
 ## Exact results
 
 - **Five binary orbits.** The six input tables all have Jacobian rank 2,117 and orbit differential rank 139. Their five distinct orbits are separated by sorted rank-triple multisets. Small vertex commutator matrices independently certify the orbit dimension 139 for the five representatives. The explicit Gamma47-B to C5 map includes a cyclic rotation, three binary basis changes, and a term permutation. The six distinct parity-witness presentations include two for the same orbit.
 - **Mixed characteristic.** The parity checks certify that the first Hensel lift fails. The augmented linear rank is 2,118, which gives embedding dimension 139 in the integral local ring. Its characteristic-two fiber already has dimension 139. Regularity and this dimension equality force 2 to vanish locally, excluding even ramified lifts at all five orbits.
 - **Rational orbit equivalence.** The file `dps48-equivalence.json` contains the explicit rational transformation from DPS48 to DPS48-accurate. It verifies termwise after a cyclic mode rotation, layer rescalings and a permutation. This identifies their full symmetry orbits. Ordered irreducible component membership outside this equivalence remains open beyond the explicit orbit relation.
-- **Four exact rational surfaces.** Each reconstruction fixes 36 terms of \(D(2)\) and varies a different union of three of Agarwal's four core groups. The rational univariate formulas are checked coefficientwise through degree-bounded exact interpolation in all 4,096 equations. The Laurent normal form transports each of the four curves along \(D(t)\), giving four simultaneous two-parameter identities. Their four directions and the published curve direction are jointly independent modulo the symmetry tangent space at \(t=1/4\) and at \(t=2\).
+- **Four exact rational surfaces.** Each reconstruction fixes 36 terms of \(D(2)\) and varies a different union of three of Agarwal's four core groups. The rational univariate formulas are checked coefficientwise through degree-bounded exact interpolation in all 4,096 equations. The Laurent normal form transports each of the four curves along \(D(t)\), giving four separate two-parameter identities. Their four directions and the published curve direction are jointly independent modulo the symmetry tangent space at \(t=1/4\) and at \(t=2\).
 - **Boundary exclusion.** In the affine closure of the full symmetry saturation of each surface over \(\overline{\mathbb Q}\), there is no zero summand and no pair with proportional factors in two modes. The proof uses gcds and valuations on the reconstructed curves, transported support separation in two modes for each outside term, and Laurent-unit loop bases from the fixed terms to control singular gauges. Two fixed-term trace invariants, \(-1/(4t)\) and \(4t\), exclude finite limits at the ends of the original \(t\)-parameter. See the manuscript for the valuation-arc argument. The original Li–Wang–Hu curve has its separate Cycle 90 boundary certificate over \(\overline{\mathbb Q}\) and \(\overline{\mathbb F}_3\).
-- **Remaining scope.** The ten-dimensional transverse space at DPS48 still has a simultaneous lift through degree four over \(\mathbb F_3\). The four exact surfaces integrate five independent directions individually and do not provide a common five- or ten-parameter parametrization. The full DPS48 component and its boundary remain open. No 47-term rational decomposition was found.
+- **Remaining scope.** The ten-dimensional transverse space at DPS48 has simultaneous lifts through degree four over both \(\mathbb Q\) and \(\mathbb F_3\). The four exact surfaces integrate five independent directions individually and do not provide a common five- or ten-parameter parametrization. The full DPS48 component and its boundary remain open. No 47-term rational decomposition was found.
 
 ## Version 1.1.0
 
@@ -23,7 +31,7 @@ At the ordered point D(2) over the field with three elements, at least **16 of t
 
 Run \`python3 dps48_support.py\` to regenerate the rank and covering certificates and print a sparse tangent witness. The script checks **40 rank-51 quartets** and **56 covered five-element sets** in each of the four rows of the external partition. Run \`python3 dps48_superposition.py\` for exact counterexamples to all six additive pairings of the stored core curves at D(2). It also certifies that a generic point of each curve has only rescaling tangents on any of the other three stored supports. Both checks run in the offline replay.
 
-The updated paper also explains how to certify a block-replacement barrier by testing the matrix slices of a boundary residual. The results in this release concern 4×4 multiplication. The original v1.0.0 artifact is archived under [DOI 10.5281/zenodo.24454159](https://doi.org/10.5281/zenodo.24454159).
+The results in this release concern 4×4 multiplication. The original v1.0.0 artifact is archived under [DOI 10.5281/zenodo.24454159](https://doi.org/10.5281/zenodo.24454159).
 
 ## Scan and search record
 
