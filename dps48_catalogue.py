@@ -81,16 +81,31 @@ def main():
     den = poly(chart["denominator"])
     part = np.array([poly(c) for c in chart["numerators"]], dtype=object).reshape(12,3,16)
     numerator = common_coefficients(den, part, base, np.array(SUPPORTS[0])-1)
-    _, evaluate = integer_evaluator(den, numerator)
+    degree, evaluate = integer_evaluator(den, numerator)
+    # On the unordered chart the involution permutes whole summand tensors.
+    # Cross-multiplication gives coordinate polynomials of degree at most bound.
+    bound = 3 * (degree + int(den.degree()))
+    permutation = list(range(48))
+    for a, b in ((12, 32), (19, 22)):
+        permutation[a-1], permutation[b-1] = b-1, a-1
+    for h in range(1, bound + 2):
+        d, first = evaluate(h)
+        e, second = evaluate(-2-h)
+        require(d != 0 and e != 0, "involution interpolation node is a pole")
+        for i, j in enumerate(permutation):
+            require(terms(first[i:i+1], (16*d)**3) == terms(second[j:j+1], (16*e)**3),
+                    "chart involution failed on a summand")
     matched = []
     for h in (sp.Rational(-1, 2), sp.Rational(-3, 2)):
         divisor, values = evaluate(h)
         require(divisor != 0, "pole at proposed chart parameter")
         if terms(values, (16*divisor)**3) == terms(*tables["Agarwal-replacement"]):
             matched.append(str(h))
-    require(matched, "no termwise match with the Agarwal replacement")
+    require(len(matched) == 2, "no termwise match with the Agarwal replacement")
     print(json.dumps({"DPS48_catalogue_orbit_sizes": [18, 1, 1, 1],
                       "max_absolute_pair_loop_traces": [2, 4, 8, 17],
+                      "first_chart_involution": {"h": "-2-h", "swaps_1_based": [[12,32], [19,22]],
+                                                 "interpolation_bound": bound},
                       "Agarwal_replacement_first_chart_at_t2": matched}))
 
 

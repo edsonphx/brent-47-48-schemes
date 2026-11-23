@@ -1,4 +1,4 @@
-"""Reconstruct the two higher rational jet arrays, using optional python-flint."""
+"""Reconstruct the three higher rational jet arrays, using optional python-flint."""
 import argparse
 from itertools import combinations_with_replacement, product
 from pathlib import Path
@@ -60,7 +60,7 @@ def reconstruct():
     minor = jac[np.ix_(variables, equations)].T.astype(np.int64)
     matrix = nmod_mat((minor % PRIME).tolist(), PRIME)
     output = {}
-    for degree, key in [(3, "cubic"), (4, "quartic")]:
+    for degree, key in [(3, "cubic"), (4, "quartic"), (5, "quintic")]:
         residual = residuals(jets, degree)
         rhs = nmod_mat(((-residual[:, equations].T) % PRIME).tolist(), PRIME)
         solution = matrix.solve(rhs)
@@ -86,4 +86,4 @@ if __name__ == "__main__":
     if args.output:
         with args.output.open("xb") as output:
             np.savez_compressed(output, **arrays)
-    print("Both rational jet arrays reconstructed exactly.")
+    print("All three rational jet arrays reconstructed exactly.")

@@ -1,4 +1,4 @@
-"""Certify the minimum external support at D(2) over F3 and the rationals."""
+"""Certify the minimum external support at D(2) and D(1/4) over F3 and the rationals."""
 from itertools import combinations
 import json
 
@@ -46,8 +46,8 @@ def remove_scalings(point, tangents):
     return representatives.reshape(-1, point.size) % 3
 
 
-def rational_witness(base, external, known_rows):
-    entries = json.loads((ROOT / "dps48-external-Q.json").read_text())
+def rational_witness(base, external, known_rows, filename):
+    entries = json.loads((ROOT / filename).read_text())
     delta = np.zeros(base.size, dtype=object)
     indices = [i for i, _ in entries]
     require(indices == sorted(set(indices)) and all(0 <= i < base.size for i in indices),
@@ -68,14 +68,12 @@ def rational_witness(base, external, known_rows):
     known = span(known_rows)
     require(len(known.pivots) == 146 and known.insert(np.array(delta % 3, dtype=np.int32)) is None,
             "rational witness does not extend the known space after reduction")
-    return {"DPS48_D2_field": "Q", "minimum_external_support": 16,
+    return {"field": "Q", "minimum_external_support": 16,
             "restricted_jacobian_rank": 1467, "known_span_with_witness": len(known.pivots),
             "nonzero_integer_coefficients": len(entries)}
 
 
-def main():
-    raw, base = all_factors()
-    # The data use the uniform factor scale 16 at t=2.
+def verify_point(parameter, base, derivative, filename):
     point = (base % 3).astype(np.int32)
     require(np.all(np.any(point, axis=2)), "a reduced factor is zero")
     jacobian = jacobian_rows(point)
@@ -100,13 +98,12 @@ def main():
     require(len(span(core_projected).pivots) == 4, "wrong core dimension modulo scalings")
     orbit_core = np.concatenate((orbit, core_tangents))
     require(len(span(orbit_core).pivots) == 145, "wrong core dimension modulo symmetries")
-    # d(16 D(t))/dt = 2*(P_+ - P_-/t^2), and t=2 is a unit mod 3.
-    derivative = (2 * (raw[2] - raw[0])).ravel() % 3
+    derivative = derivative.ravel() % 3
     require(not np.any((derivative @ jacobian) % 3), "published curve derivative is not tangent")
     known = span(np.vstack((orbit_core, derivative)))
     require(len(known.pivots) == 146, "incorrect span of known directions")
 
-    rational = rational_witness(base, external, np.vstack((orbit_core, derivative)))
+    rational = rational_witness(base, external, np.vstack((orbit_core, derivative)), filename)
 
     covers = []
     for line in LINES:
@@ -132,7 +129,7 @@ def main():
     touched = {i+1 for i in np.flatnonzero(np.any(witness.reshape(48, 48) % 3, axis=1))}
     require(touched & external == set(ACTIVE_EXTERNAL), "incorrect external witness support")
     print(json.dumps({
-        "DPS48_D2_field": "F3", "minimum_external_support": 16,
+        "DPS48_parameter": parameter, "field": "F3", "minimum_external_support": 16,
         "rank51_quartets_and_covered_five_sets": covers,
         "support_restricted_jacobian_rank": restricted_rank,
         "known_span_rank": 146, "enlarged_span_rank": len(known.pivots),
@@ -140,8 +137,14 @@ def main():
         "witness_sparse_coordinates_0_based": [[int(i), int(witness[i]) % 3]
                                               for i in np.flatnonzero(witness % 3)],
     }))
-    print(json.dumps(rational))
+    print(json.dumps({"DPS48_parameter": parameter, **rational}))
 
 
 if __name__ == "__main__":
-    main()
+    raw, at_two = all_factors()
+    minus, constant, plus = raw
+    # For each integer model use a tangent proportional to the derivative
+    # of the Laurent family. Both proportionality factors are units at 3.
+    verify_point("2", at_two, 4*plus-minus, "dps48-external-Q.json")
+    at_quarter = 16*minus + 4*constant + plus
+    verify_point("1/4", at_quarter, plus-16*minus, "dps48-external-quarter-Q.json")
