@@ -19,7 +19,7 @@ for line in Path("SHA256SUMS.txt").read_text().splitlines():
 PY
 fi
 
-checks=(hensel audit equivalence boundary formal_dps48 scan families curve_grid flip_walk)
+checks=(hensel audit equivalence boundary formal_dps48 scan families curve_grid flip_walk dps48_support dps48_superposition)
 pids=()
 for name in "${checks[@]}"; do
     python3 "${name}.py" > "$workspace/$name.jsonl" &

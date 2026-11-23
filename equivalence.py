@@ -29,6 +29,32 @@ def binary_fingerprint(point):
                           for term in modes(point)).items())
 
 
+COMMUTANT_TERMS = {
+    "AT47": ((2, 15, 12), (2, 3, 4, 14), (2, 15, 6)),
+    "KM47": ((2, 10, 8), (18, 6, 1), (2, 10, 4)),
+    "C3": ((2, 11, 1), (2, 1, 3), (2, 8, 1)),
+    "C4": ((4, 1, 9), (4, 6, 1), (4, 1, 2)),
+    "C5": ((11, 47), (11, 47), (11, 6, 3)),
+}
+
+
+def check_commutants(data):
+    units = np.eye(16, dtype=np.int64).reshape(16, 4, 4)
+    for name, vertex_terms in COMMUTANT_TERMS.items():
+        point = modes(data[name])
+        require(np.all(np.any(point, axis=(2, 3))), "a binary factor is zero")
+        for m, indices in enumerate(vertex_terms):
+            terms = point[np.array(indices)-1]
+            loops = terms[:, m] @ terms[:, (m+1) % 3] @ terms[:, (m+2) % 3]
+            span = ModularEchelon(16, 2)
+            for loop in loops:
+                for row in (units @ loop - loop @ units).reshape(16, 16).T:
+                    span.insert(row)
+            require(len(span.pivots) == 15, f"{name}: non-scalar commutant at vertex {m}")
+    print(json.dumps({"binary_scalar_commutant_terms_1_based": COMMUTANT_TERMS,
+                      "commutator_rank_per_vertex": 15}))
+
+
 def check(data, filename, prime):
     cert = json.loads((ROOT/filename).read_text())
     a = modes(data[cert["source"]])
@@ -64,6 +90,7 @@ def check(data, filename, prime):
 
 def main():
     with np.load(ROOT/"inputs.npz", allow_pickle=False) as data:
+        check_commutants(data)
         check(data, "gamma-equivalence.json", 2)
         check(data, "dps48-equivalence.json", None)
         points = ["AT47", "KM47", "C3", "C4", "C5"]

@@ -16,15 +16,22 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \title[Local geometry of 47- and 48-term schemes]{Exact local and arithmetic geometry of 47- and 48-term schemes for \(4\times4\) matrix multiplication}
 \author{Edson Soares de Souza}
-\date{23 November 2026}
+\date{23 November 2026. Version 1.1.0.}
 \subjclass[2020]{Primary 68W30, 14B10; Secondary 15A69, 13H05}
 \keywords{Brent equations, tensor rank, matrix multiplication, characteristic two, Hensel lifting, rational deformations}
 \begin{document}
 \begin{abstract}
-We certify that five inequivalent 47-term schemes are smooth points of the ordered Brent scheme in characteristic two, of local dimension \(139\), with open symmetry orbits. Gamma47-B is equivalent to C5. Exact first-lift obstructions imply that the integral Brent scheme is supported in characteristic two near these points, excluding ramified mixed-characteristic specializations. For the rational Dumas--Pernet--Sedoglavic 48-term scheme, we give an explicit rational equivalence with its more accurate variant. We also construct rational curves that vary twelve summands of a published one-parameter scheme and transport them along that family. This gives four exact rational surfaces and five independent transverse tangent directions. We prove a collision and zero-summand exclusion in the affine symmetry-saturated closure of each surface. The full ten-parameter rational parametrization remains open.
+We certify that five inequivalent 47-term schemes are smooth points of the ordered Brent scheme in characteristic two, of local dimension \(139\), with open symmetry orbits. Gamma47-B is equivalent to C5. Exact first-lift obstructions imply that the integral Brent scheme is supported in characteristic two near these points, excluding ramified mixed-characteristic specializations. For the rational Dumas--Pernet--Sedoglavic 48-term scheme, we give an explicit rational equivalence with its more accurate variant. We also construct rational curves that vary twelve summands of a published one-parameter scheme and transport them along that family. This gives four exact rational surfaces and five independent transverse tangent directions. At \(D(2)\) over \(\F_3\), a sixth direction requires at least sixteen external summands, and the bound is attained. We also exclude zero summands and two-factor collisions in the affine symmetry-saturated closure of each surface. The 48-term theorems concern specific deformations and their affine closures.
 \end{abstract}
 \maketitle
 \markboth{Local geometry of 47- and 48-term schemes}{Local geometry of 47- and 48-term schemes}
+
+\section{Introduction}
+A short matrix multiplication scheme can serve as a starting point for two different searches. One can try to lift a binary scheme to characteristic zero without increasing the number of products. One can also deform a rational scheme until a pair of summands merges or one summand disappears. A search result for either operation depends on the particular point or family being searched. We use the ordered Brent scheme to certify when these operations are excluded.
+
+The \(47\)-term part concerns binary schemes and their characteristic-zero lifts. Five representatives have tangent space equal to the infinitesimal symmetry orbit. A parity certificate then detects a stronger arithmetic obstruction, namely that the local integral scheme already lies in characteristic two. The \(48\)-term part starts from the rational construction of Dumas, Pernet and Sedoglavic~\cite{dps}. We construct four rational surfaces through it and control their affine limits under basis changes. A separate calculation at the reduction of \(D(2)\) counts how many external summands a tangent must move to go beyond the five directions supplied by these surfaces. These results restrict particular searches for \(47\) rational products. The existence of a \(47\)-term rational scheme is a global question.
+
+Our companion paper proves an exact local dimension at the recursive \(49\)-term Strassen-square point~\cite{strassensquare}. That point has a tangent space larger than its local dimension, so quadratic obstructions are essential to the dimension proof. Here the \(47\)-term local dimension follows from the orbit, and the \(48\)-term results concern rational families and support restrictions. The \(49\)-term numerical study of Li, Wang and Hu~\cite{lwh} has its own choice of points.
 
 \section{Brent equations and group action}
 Let \(k\) be a field and let \(E=\operatorname{Mat}_{4\times4}(k)\). We use two equivalent conventions. In direct output coordinates the matrix multiplication tensor is
@@ -43,14 +50,47 @@ The connected acting group has three copies of \(\GL_4\) and two rescaling param
 \end{equation}
 with vertices taken modulo three. A simultaneous scalar in each \(G_m\) can be canceled by the term rescalings, giving a three-dimensional kernel. We also use term permutations and permutations of the three modes. A cyclic permutation acts directly on cyclic factors and a reversal transposes each matrix. Below \(J_p=d F_r(p)\), \(K_p=\ker J_p\), and \(O_p\) is the image of the differential of the connected action at the identity.
 
+Differentiating \eqref{eq:brent}, the column for changing the \(i\)-th coordinate of \(A_s\) is \(e_i\otimes B_s\otimes C_s^{\top}\). The corresponding columns for the other two modes are obtained by replacing their factor by the coordinate unit. Thus each column is determined by the two unchanged factors. The rank certificate processes the columns in summand, mode, and row-major coordinate order. It reduces a column by already accepted pivots, normalizes its first remaining nonzero entry, and appends it exactly when its remainder is nonzero. The binary calculation needs only additions. This gives the following dimensions for the displayed points.
+\begin{center}
+\small
+\begin{tabular}{@{}lcrrr@{}}
+\toprule
+Point or tables & Field & \(\rank J_p\) & \(\dim O_p\) & \(\dim K_p/O_p\)\\
+\midrule
+Five \(47\)-term representatives & \(\F_2\) & \(2117\) & \(139\) & \(0\)\\
+DPS48 and its accurate variant & \(\Q,\F_3\) & \(2153\) & \(141\) & \(10\)\\
+\(D(2)\) & \(\F_3\) & \(2153\) & \(141\) & \(10\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+For the rational Jacobian rank, the nonzero modular pivots give the lower bound. The exact rational kernel certificate gives the matching upper bound by exhibiting \(151\) independent kernel vectors. The replay checks annihilation by integer multiplication and independence by reduction modulo a prime.
+
 \section{Five smooth orbits in characteristic two}
 \begin{theorem}\label{thm:rigid}
 At each of the five binary schemes AT47, KM47, C3, C4, and C5, the ordered Brent scheme over \(\overline{\F}_2\) is smooth of local dimension \(139\). Its connected symmetry orbit contains a Zariski-open neighborhood of the point. The five points are pairwise inequivalent under all the actions above. Gamma47-B is equivalent to C5.
 \end{theorem}
 \begin{proof}
-For each table the program evaluates all coordinates of \eqref{eq:brent}. In \(2,256\) variables the exact Jacobian rank is \(2,117\), while the differential of \eqref{eq:action} has rank \(139\). The tangent-space upper bound on local dimension and the lower bound from the dimension of the orbit image therefore match. A finite type scheme over the algebraic closure with local dimension equal to tangent dimension is regular at this point and thus smooth. Its local irreducible component is unique. The orbit is locally closed and has full dimension in that component, so contains an open neighborhood of the point.
+For each table direct tensor contraction gives \eqref{eq:brent}, and the column reduction above gives rank \(2117\) in \(2256\) variables. We derive the orbit rank by a smaller certificate. At vertex \(m\), form the product \(L_{s,m}=X_{s,m}X_{s,m+1}X_{s,m+2}\). It transforms by conjugation by \(G_m\), because the term scalings cancel. An infinitesimal stabilizer with vertex generator \(Y_m\) therefore satisfies \([Y_m,L_{s,m}]=0\). The table lists loop indices whose stacked commutator equations in the sixteen entries of \(Y_m\) have rank \(15\) over \(\F_2\).
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Scheme & Vertex \(0\) & Vertex \(1\) & Vertex \(2\)\\
+\midrule
+AT47 & \(2,15,12\) & \(2,3,4,14\) & \(2,15,6\)\\
+KM47 & \(2,10,8\) & \(18,6,1\) & \(2,10,4\)\\
+C3 & \(2,11,1\) & \(2,1,3\) & \(2,8,1\)\\
+C4 & \(4,1,9\) & \(4,6,1\) & \(4,1,2\)\\
+C5 & \(11,47\) & \(11,47\) & \(11,6,3\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+These are one-based summand indices. A row of the small linear system is obtained by taking one coordinate of \([E_{ab},L_{s,m}]\) for each matrix unit \(E_{ab}\). Thus each \(Y_m\) is scalar, and the vanishing of the variation of each nonzero factor forces its infinitesimal term scaling to cancel the difference of the adjacent vertex scalars. The differential kernel has dimension three, giving orbit rank \(3\cdot16+2\cdot47-3=139\). The tangent-space upper bound on local dimension and the lower bound from the dimension of the orbit image therefore match. A finite type scheme over the algebraic closure with local dimension equal to tangent dimension is regular at this point and thus smooth. Its local irreducible component is unique. The orbit is locally closed and has full dimension in that component, so contains an open neighborhood of the point.
 
-For each summand, sort the three individual matrix ranks. The resulting multiset is invariant under \eqref{eq:action}, term permutations and mode permutations. The five tabulated multisets differ. For Gamma47-B, cyclically reorder its modes as \((2,0,1)\), using zero-based indices. Apply \eqref{eq:action} with matrices
+For each summand, sort the three individual matrix ranks. The resulting multiset is invariant under \eqref{eq:action}, term permutations and mode permutations. The triples \((1,1,1),(1,1,3),(1,2,2)\) already distinguish the five representatives. Their multiplicities in AT47, KM47, C3, C4 and C5, respectively, are
+\[
+ (3,7,0),\qquad (2,8,2),\qquad (2,6,5),\qquad (1,9,0),\qquad (1,9,6).
+\] For Gamma47-B, cyclically reorder its modes as \((2,0,1)\), using zero-based indices. Apply \eqref{eq:action} with matrices
 \[
  \begin{pmatrix}1&1&1&1\\0&1&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix},\
  \begin{pmatrix}1&0&0&0\\1&1&0&0\\1&0&1&0\\1&0&0&1\end{pmatrix},\
@@ -74,7 +114,7 @@ Let \(A\) be the local ring of \(\Brent_{47}\) over \(\Z_{(2)}\) at the binary p
 \end{proof}
 
 \section{Rational 48-term schemes}
-At the DPS48 base point and its accurate variant, the exact ranks over \(\Q\) and \(\F_3\) give \(\dim K=151\), \(\dim O=141\), and transverse dimension \(10\). All \(55\) quadratic coefficient classes vanish, and the Cycle 90 construction simultaneously lifts the ten directions through degree four over \(\F_3\). Finite-order data in characteristic three imposes no uniqueness of rational coefficients or of higher-order terms.
+At the DPS48 base point of Dumas, Pernet and Sedoglavic~\cite{dps} and its accurate variant, the exact ranks over \(\Q\) and \(\F_3\) give \(\dim K=151\), \(\dim O=141\), and transverse dimension \(10\). All \(55\) quadratic coefficient classes vanish, and the Cycle 90 construction simultaneously lifts the ten directions through degree four over \(\F_3\). Finite-order data in characteristic three imposes no uniqueness of rational coefficients or of higher-order terms.
 
 \begin{proposition}\label{prop:accurate}
 The two rational DPS tables are equivalent over \(\Q\) under \eqref{eq:action}, cyclic mode rotation, and term permutations.
@@ -98,8 +138,8 @@ For a possible limit with \(t\) a unit in a discrete valuation ring \(R\), consi
 Set
 \[
 \begin{aligned}
- G_1&=\{4,17,34,40\}, & G_2&=\{9,25,28,35\},\\
- G_3&=\{12,19,22,32\}, & G_4&=\{15,38,44,48\}.
+ I_1&=\{4,17,34,40\}, & I_2&=\{9,25,28,35\},\\
+ I_3&=\{12,19,22,32\}, & I_4&=\{15,38,44,48\}.
 \end{aligned}
 \]
 These are the core groups used by Agarwal~\cite{agarwal}. On each union of three groups, we fix the remaining \(36\) summands of \(D(2)\) and solve the restricted equations in a gauge that fixes two nonzero factor coefficients per term. The rational reconstruction is applied to the resulting univariate series over \(\Q\). For example, in the first chart a recovered coordinate \(Y\) and a slice coordinate \(T\) satisfy
@@ -108,9 +148,32 @@ These are the core groups used by Agarwal~\cite{agarwal}. On each union of three
 \]
 Passing to a rational parameter \(h\) yields
 \(Y=8((1+h)^2-1)\) and \(T=-16h/((h+1)(h+2))\).
-The certificate evaluates the reconstructed coordinates independently of the series solver. For each chart it multiplies the equations by the cube of the common denominator and checks all \(4,096\) resulting polynomial identities by degree-bounded exact interpolation. It also verifies agreement with \(D(2)\) at \(h=0\).
+The certificate evaluates the reconstructed coordinates independently of the series solver. It checks all \(4,096\) resulting polynomial identities by degree-bounded exact interpolation. It also verifies agreement with \(D(2)\) at \(h=0\).
 
-The reconstruction can be transported along \(D(t)\) using the Laurent normal form and block scalings in~\cite{agarwal}. For each chart we use the stated core frames, verify their Laurent-unit minors, and check termwise that the transport sends the original twelve-summand partial tensor to the moving partial tensor. Applying the same linear maps to the reconstructed summands preserves that identity. The other \(36\) summands are kept at \(D(t)\). Reduction modulo three checks independence of the reconstructed derivatives modulo the symmetry tangent space. The combined transverse rank is \(5\) at both \(t=1/4\) and \(t=2\), counting the \(t\)-direction only once. Each surface has two independent tangent directions at its marked point. These calculations leave the simultaneous ten-parameter problem open.
+Write \(S_j\) for the union of three index sets in chart \(j\). Let \(Y_{s,m}^{(j)}(h)\) be the reconstructed factor for \(s\in S_j\) and mode \(m\). The data store these coordinate polynomials with a common denominator \(d_j(h)\). The certificate leaves the complementary terms at \(D(2)\), clears \(d_j(h)^3\), and verifies each of the \(4096\) polynomial identities by evaluation at one more point than the following degree bound.
+\begin{center}
+\small
+\begin{tabular}{@{}clc@{}}
+\toprule
+Chart & Moving summands & Residual degree bound\\
+\midrule
+\(1\) & \(I_1\cup I_2\cup I_3\) & \(15\)\\
+\(2\) & \(I_1\cup I_2\cup I_4\) & \(39\)\\
+\(3\) & \(I_1\cup I_3\cup I_4\) & \(33\)\\
+\(4\) & \(I_2\cup I_3\cup I_4\) & \(15\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+To transport a chart, form in each core mode a \(16\times16\) frame \(M_m(t)\) whose first eight columns are the published basis factors in that mode and whose final eight columns are coordinate vectors completing the frame. Agarwal's normal form~\cite{agarwal} gives explicit Laurent maps on the three modes. In the second mode the map from the \(t=2\) frame to the moving frame is \(M_1(t)M_1(2)^{-1}\). The third mode has the same form with a diagonal weight inserted, and the first mode is constant. More precisely, let \(\eta=t/2\) and put third-mode weight \(\eta\) on the indices in \(I_4\), with weight \(1\) elsewhere. The third-mode map is
+\[
+ M_2(t)\operatorname{diag}(w_b^{-1}:b\text{ in the third-mode basis},1,\ldots,1)M_2(2)^{-1}.
+\]
+The three maps send the \(s\)-th core tensor summand at \(2\) to its value at \(t\) divided by \(w_s\). On each chart there is a further diagonal map on the two four-dimensional blocks in the second and third chart modes. If the three groups in that chart carry weights \(f,b,u\) in the fixed, bottom and arm positions of Agarwal's decomposition, the two maps multiply these blocks by \((f,b)\) and \((1,u/b)\), respectively. Their tensor product restores exactly the weight \(w_s\) on every selected summand. The verifier checks this termwise equality and the two frame minors as Laurent monomials. Thus these transport maps and their inverses are regular for \(t\ne0\).
+
+Denote the three composite maps by \(L_m^{(j)}(t)\). Apply \(L_m^{(j)}(t)\) to \(Y_{s,m}^{(j)}(h)\) on the support \(S_j\), and use the original \(D_s(t)\) elsewhere. At \(h=0\) the transported partial sum is the original partial sum of \(D(t)\), and its value is independent of \(h\) by the exact chart identity. The resulting \((t,h)\) is therefore a rational two-parameter solution.
+
+In each chart, differentiate the displayed fraction \(N(h)/d_j(h)\) at \(h=0\) and apply the transport maps with the per-term rescalings that align the base factors. The span of the infinitesimal symmetry vectors has rank \(141\) modulo three. Including the \(t\)-derivative and the four \(h\)-derivatives gives rank \(146\), both at \(t=1/4\) and at \(t=2\). These modular pivots also give a characteristic-zero lower bound. The dimension of the orbit differential in characteristic zero is at most \(141\) because of the three scalar kernel directions, so all five directions remain independent modulo the orbit over \(\Q\). Each individual chart has two independent tangent directions modulo the orbit at those points.
 
 \begin{theorem}\label{thm:surfaces}
 For each of the four reconstructed rational surfaces, the affine closure of its symmetry saturation over \(\overline{\Q}\) contains neither a zero summand nor a two-factor collision.
@@ -122,6 +185,46 @@ The \(36\) terms retained from \(D(t)\) determine polynomial invariants independ
 
 It remains to exclude collisions involving terms whose transport differs. In each mode all moving factors stay in the transported linear span of the chosen twelve factors at \(t=2\). For the omitted core group, the fixed factors agree projectively with transport of their \(t=2\) factors. The gcd tests at \(t=2\) therefore also cover pairs of core terms. Each term outside the sixteen-term core has a factor outside the moving span in at least two modes at every \(t\ne0\). A covector annihilating that span has Laurent-unit evaluation on the outside factor in each certified mode. Hence a moving term and an outside term can share at most one projective factor. The fixed-fixed pairs are covered by Theorem~\ref{thm:lwh}. These cases exhaust every valuation arc with generic point in the saturation and therefore every point in the affine closure.
 \end{proof}
+
+
+\subsection*{Minimum external support for an additional tangent}
+Let \(p=D(2)\) over \(\F_3\), in the ordering of~\cite[Appendix A]{lwh}. Let \(C=I_1\cup I_2\cup I_3\cup I_4\) be the core, and let \(E=\{1,\ldots,48\}\setminus C\). Put \(K_C=\{v\in K_p:v_s=0\ (s\in E)\}\) and \(d=D'(2)\). Define the external support of \(v\) as \(\{s\in E:v_s\ne0\}\), where \(v_s\) is the triple of variations in summand \(s\). All core summands may vary.
+
+\begin{theorem}\label{thm:external}
+Among \(v\in K_p\) with \(v\notin O_p+K_C+\langle d\rangle\), the minimum external support size is \(16\). Thus the minimum is taken over representatives of tangent classes, allowing global basis changes and term rescalings.
+\end{theorem}
+
+\begin{proof}
+Let \(R\subset O_p\) consist of the termwise scaling directions, and set \(W=K_p/R\). All factors are nonzero and each summand has two independent scaling directions. The certified Jacobian rank \(2153\) gives \(\dim K_p=151\), and \(\dim R=96\) gives \(\dim W=55\). The image of \(K_C\) in \(W\) has dimension four. Moreover, \(O_p+K_C\) has dimension \(145\), and \(O_p+K_C+\langle d\rangle\) has dimension \(146\). This last space represents the five known transverse directions, since the four chart derivatives are supported in \(C\) and are independent together with \(d\) modulo \(O_p\).
+
+For \(F\subseteq E\), restrict to the summands in \(F\) and quotient by the two scaling directions \(R_s\) at each \(s\). This defines
+\[
+ \rho_F:W\longrightarrow\bigoplus_{s\in F}\F_3^{48}/R_s.
+\]
+The image of \(K_C\) in \(W\) belongs to \(\ker\rho_F\). Thus a restriction of rank \(51\) has precisely that four-dimensional kernel. Use the following partition of \(E\), with one-based indices.
+\[
+\begin{array}{c|rrrrrrrr}
+ 1&1&5&6&7&10&14&31&36\\
+ 2&16&20&21&23&27&29&43&46\\
+ 3&2&8&13&18&26&30&33&39\\
+ 4&3&11&24&37&41&42&45&47
+\end{array}
+\]
+In each row there are \(40\) four-element subsets giving rank \(51\). Every one of the \(56\) five-element subsets of the row contains such a quartet. The checker regenerates the quotient basis, computes the quartet ranks and checks the cover. If \(v\) moves at most fifteen external summands, then at least seventeen are stationary. Some row therefore contains at least five stationary summands. On a certified quartet in that row the class of \(v\) lies in \(\ker\rho_F\), so \(v\in K_C+R\subseteq O_p+K_C+\langle d\rangle\).
+
+For attainment, allow the core and the external set
+\[
+ S=\{5,6,8,10,11,13,16,18,20,23,24,26,36,37,41,46\}
+\]
+to vary. The restricted Jacobian has rank \(1467\) in \(1536\) variables, giving a \(69\)-dimensional supported kernel. Adjoining that kernel to \(O_p+K_C+\langle d\rangle\) raises the span rank from \(146\) to \(147\). The replay outputs a sparse representative and directly verifies its support and the equation \(J_pv=0\).
+\end{proof}
+
+The threshold is first-order and specific to the reduction of \(D(2)\) and the designated core. It controls tangent representatives leaving the known five-dimensional subspace. Agarwal's replacement radius measures changes to complete rank-one summands in exact decompositions~\cite{agarwal}.
+
+\subsection*{Mixed terms and residual tensors}
+For two exact deformations of the same base point \(P\), the trilinear Brent expression shows that their additive superposition is exact precisely when the mixed residual vanishes. With three or more parameters, pairwise checks suffice if at most two deformations modify each summand, because the cubic term involving three distinct parameters is then absent. At \(D(2)\) we checked the six pairs of stored core curves by exact rational evaluation. At parameter \(1\) on both curves, the two individual identities hold, while the additive superposition fails for every pair. Thus additive superposition in the stored factor coordinates cannot produce a joint family of these curves. A second test rules out a more general sequential strategy. At the parameter value (1) on each chart, for each of the three other stored supports, the restricted Jacobian has rank (552) modulo (101). A nonzero minor modulo (101) gives the same lower bound over (Q), and (24) independent rescalings give the matching upper bound in (576) variables. Hence at a generic point on each chart the restricted Brent scheme has tangent dimension \(24\). The \(24\)-dimensional scaling orbit through that point supplies the matching local dimension lower bound. The point is smooth in the restricted scheme, and its scaling orbit is locally open. In a regular joint parametrization with a second parameter supported on one of those sets, an independent derivative at (D(2)) would remain independent on a nonempty open part of the first curve, contradicting this rank. A joint construction may move additional terms. The overlapping supports also require accounting for triple mixed terms when testing more than two parameters.
+
+A further boundary question is whether a block of divergent summands can be replaced while the remaining finite summand limits are held fixed. After subtracting the finite limits from the multiplication tensor, a rank bound on the residual tensor can rule out such a replacement. Flattenings give one test. If a residual has an \(r\)-dimensional matrix slice space and a \(2\times2\) minor on that space is a nonzero multiple of \(\ell^2\) for a nonzero linear form \(\ell\), then its rank is at least \(r+1\). Indeed, a length-\(r\) decomposition would make the slice space spanned by \(r\) rank-one matrices, all of which must lie in \(\ker\ell\). This test arose while studying singular limits in deformations of the 93-term \(5\times5\) scheme of Moosbauer and Poole~\cite{mp}. A block-replacement analysis for DPS48 would require its own residual tensors.
 
 \paragraph{Rank and collision scan.} The frozen catalogue of \(21\) displayed rational tables has exact mod-three Jacobian rank \(2,153\) and orbit differential rank \(141\) in each case. It includes the PLinOpt natural-basis tables and composed encodings, the Moran--Schwartz--Yuan table, and Agarwal's twelve-term replacement. We also audit the good reductions on a finite rational grid on the reconstructed curves. The discrete walk and the grid yielded no exact 47-term rational identity. The latter is a search result, and the boundary theorem concerns the four certified surfaces.
 
@@ -136,13 +239,18 @@ Tomar~\cite{tomar} & Five binary 47-term representatives & Bounded complete-summ
 Kauers--Moosbauer~\cite{km} & Binary flip-graph tables & First Hensel failures at scale.\\
 Li--Wang--Hu~\cite{lwh} & DPS48 & Tangent and orbit computation, deflation evidence, and exact one-parameter family.\\
 Agarwal~\cite{agarwal} & \(D(t)\) and a twelve-term replacement & Bounded-subset rigidity and exact transport of completion charts.\\
-This work & Binary points and DPS48 & Exact local geometry, ramified obstruction, an orbit certificate, reconstructed rational subfamilies, and scoped boundary exclusions.\\
+This work & Binary points and DPS48 & Exact local geometry, ramified obstruction, an orbit certificate, reconstructed rational subfamilies, scoped boundary exclusions, and an exact transverse support threshold.\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 \section{Reproducibility}
-Run \texttt{bash reproduce.sh} from the accompanying archive. The replay reads frozen coefficient tables, reevaluates all tensor identities, checks the parity witnesses and orbit certificates, and verifies the rational polynomial identities and boundary certificates. Source revisions and reduction conventions are recorded in the manifest and data notes. The numerical collision search is exploratory and is described separately from the exact evidence.
+The public repository contains the manuscript, factor tables, certificates, and an offline verifier. Use the files from the version tag for this manuscript.
+\begin{quote}
+\url{https://github.com/edsonphx/brent-47-48-schemes}\\
+\url{https://github.com/edsonphx/brent-47-48-schemes/tree/v1.1.0}
+\end{quote}
+Run \texttt{bash reproduce.sh} with Python, NumPy and SymPy from the accompanying archive. The scripts \texttt{equivalence.py}, \texttt{hensel.py}, \texttt{families.py} and \texttt{dps48\_support.py} also run independently. The replay reads frozen coefficient tables, reevaluates all tensor identities, checks the parity witnesses and orbit certificates, and verifies the rational polynomial identities, boundary certificates, and external-support threshold. It also emits the exact pairwise superposition counterexamples. Source revisions and reduction conventions are recorded in the manifest and data notes. The numerical collision search is exploratory and is described separately from the exact evidence.
 
 \subsection*{AI-assisted research statement}
 An OpenAI model assisted with literature review, exploratory calculations, certificate code, and drafting. The computational statements in this manuscript are presented with replayable checks and explicit mathematical arguments.
@@ -166,10 +274,12 @@ Gamma47-B &288&682\\
 A projection weight counts nonzero coordinates after eliminating the image pivots from \(F_{47}(p)/2\). It depends on the displayed coefficient table and elimination order. A dual witness weight counts the equations appearing in its parity functional.
 
 \begin{thebibliography}{9}
+\bibitem{strassensquare} E. Soares de Souza, \emph{Exact local dimension of the Brent variety \(V(4,4,4\mid49)\) at the recursive Strassen-square point via quadratic obstructions}, 2026. \url{https://doi.org/10.5281/zenodo.24449376}
 \bibitem{tomar} T.~S. Tomar, \emph{Local optimality of rank-47 schemes for \(4\times4\) matrix multiplication over \(\F_2\)}, 2026. \url{https://www.mefyi.com/papers/rank-47-local-optimality/}
 \bibitem{km} M. Kauers and J. Moosbauer, \emph{Flip graphs for matrix multiplication}, ISSAC 2023. \url{https://arxiv.org/abs/2212.01175}
 \bibitem{lwh} X. Li, Y. Wang, and S. Hu, \emph{Substitution and quotient of the isotropy group action}, 2026. \url{https://arxiv.org/abs/2607.15069}
 \bibitem{dps} J.-G. Dumas, C. Pernet, and A. Sedoglavic, \emph{A non-commutative algorithm for multiplying \(4\times4\) matrices using \(48\) non-complex multiplications}, 2025. \url{https://arxiv.org/abs/2506.13242}
+\bibitem{mp} J. Moosbauer and M. Poole, \emph{Flip graphs with symmetry and new matrix multiplication schemes}, ISSAC 2025. \url{https://arxiv.org/abs/2502.04514}
 \bibitem{agarwal} A. Agarwal, \emph{Certified local rank and uniqueness barriers for a 48-term matrix-multiplication decomposition}, 2026. \url{https://arxiv.org/abs/2609.13596}
 \end{thebibliography}
 \end{document}
