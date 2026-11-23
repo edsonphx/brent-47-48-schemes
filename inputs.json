@@ -1,0 +1,143 @@
+[
+  {
+    "name": "AT47",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/google-deepmind/alphatensor/1949163da3bef7e3eb268a3ac015fd1c2dbfc767/algorithms/factorizations_f2.npz",
+        "sha256": "70f09f349d8d2874ef0e0e089459c7320f5aa3eef277df5ffa67f573709db2da"
+      }
+    ],
+    "output_factor_transposed": true
+  },
+  {
+    "name": "KM47",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://zenodo.org/api/records/23652770/files/mm444-f2-local-optimality-code-v2.0.zip/content",
+        "sha256": "6a7673fd10dff805ec5ffd9a42a468cfd09386753d02649f08707ac5e2454572",
+        "member": "repo/schemes/km47.txt"
+      }
+    ],
+    "output_factor_transposed": true
+  },
+  {
+    "name": "C3",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://zenodo.org/api/records/23652770/files/mm444-f2-local-optimality-code-v2.0.zip/content",
+        "sha256": "6a7673fd10dff805ec5ffd9a42a468cfd09386753d02649f08707ac5e2454572",
+        "member": "repo/schemes/c3_47.txt"
+      }
+    ],
+    "output_factor_transposed": true
+  },
+  {
+    "name": "C4",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://zenodo.org/api/records/23652770/files/mm444-f2-local-optimality-code-v2.0.zip/content",
+        "sha256": "6a7673fd10dff805ec5ffd9a42a468cfd09386753d02649f08707ac5e2454572",
+        "member": "repo/schemes/c4_47.txt"
+      }
+    ],
+    "output_factor_transposed": true
+  },
+  {
+    "name": "C5",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://zenodo.org/api/records/23652770/files/mm444-f2-local-optimality-code-v2.0.zip/content",
+        "sha256": "6a7673fd10dff805ec5ffd9a42a468cfd09386753d02649f08707ac5e2454572",
+        "member": "repo/schemes/c5_47.txt"
+      }
+    ],
+    "output_factor_transposed": true
+  },
+  {
+    "name": "Gamma47-B",
+    "fields": [
+      "F2"
+    ],
+    "target_scale": 1,
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/big-brain-zaru/FastMatrixF2/5fd32f680acf2a7708ea6a2d40d10f7e7537957c/results/records/gamma47_B_rank47.json",
+        "sha256": "9433454d1178fe0314bf623b127fc9dd3f1a31ffb093cc64f5edc324437d858b"
+      }
+    ]
+  },
+  {
+    "name": "DPS48",
+    "fields": [
+      "F3",
+      "Q"
+    ],
+    "target_scale": 16,
+    "factor_denominators": [
+      2,
+      1,
+      8
+    ],
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48_rational_L.sms",
+        "sha256": "8eba3256d1012fe794b90c2a1fcead5ccc0db966cc388c2a51609845406b8617"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48_rational_R.sms",
+        "sha256": "4bc68b6dd3c8125aa59ebb7de706a54520876cfabcc83a4f5dc84ebfd60c1fe5"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48_rational_P.sms",
+        "sha256": "f67faa68030d6ac4e625e800800f60fe74722188b7189b86b34b34d8a4833f1d"
+      }
+    ]
+  },
+  {
+    "name": "DPS48-accurate",
+    "fields": [
+      "F3",
+      "Q"
+    ],
+    "target_scale": 16,
+    "factor_denominators": [
+      1,
+      4,
+      4
+    ],
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48-accurate_L.sms",
+        "sha256": "65328684b25b23395b96c8979340083fc9d5ab7e1423ba6d75cb21e47a8bacae"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48-accurate_R.sms",
+        "sha256": "4537935ee71daa5d3c43b315f06c9674b88ae8241206156b91d5435f838e0646"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jgdumas/Fast-Matrix-Multiplication/8d3f4339cd01c78fb1e939777453395b7c935281/FMM-plinopt-codegen/data/4x4x4_48-accurate_P.sms",
+        "sha256": "e45461f1f32025ad5d289a8720c6aced5509a62ef14e6e2b4a8f49a90a0cd28b"
+      }
+    ]
+  }
+]
